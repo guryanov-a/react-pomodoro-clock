@@ -1,2 +1,4 @@
 export const RESET = 'RESET';
 export const SET_TIMER_TIME = 'SET_TIMER_TIME';
+export const CHANGE_SESSION_TIME = 'CHANGE_SESSION_TIME';
+export const CHANGE_BREAK_TIME = 'CHANGE_BREAK_TIME';
