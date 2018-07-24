@@ -9,7 +9,7 @@ const TimeControlsStyled = styled.div`
   margin-bottom: 30px;
 `;
 
-const TimeControls = ({ sessionTimer, breakTimer }) => (
+const TimeControls = () => (
   <TimeControlsStyled>
     <BreakTimeControl />
     <SessionTimeControl />

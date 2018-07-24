@@ -19,15 +19,15 @@ const ControlBtn = styled.button`
   margin: 0 5px;
 `;
 
-const TimeControl = ({ id, title, value }) => (
+const TimeControl = ({ id, title, value, onIncrease, onDecrease }) => (
   <StyledTimeControl>
     <h2 id={`${id}-label`}>{ title }</h2>
     <Controls>
-      <ControlBtn id={`${id}-decrement`}>
+      <ControlBtn id={`${id}-decrement`} onClick={ onDecrease }>
         <FontAwesomeIcon  icon={ faAngleDown } />
       </ControlBtn>
       <div id={`${id}-length`} className="value">{ value }</div>
-      <ControlBtn id={`${id}-increment`}>
+      <ControlBtn id={`${id}-increment`} onClick={ onIncrease }>
         <FontAwesomeIcon icon={ faAngleUp } />
       </ControlBtn>
     </Controls>
