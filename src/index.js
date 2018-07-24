@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap-reboot.min.css';
-import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
+import Root from './components/Root';
+import 'bootstrap/dist/css/bootstrap-reboot.min.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Root />,
+  document.getElementById('root'),
+);
 registerServiceWorker();

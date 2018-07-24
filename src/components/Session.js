@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { reset } from '../actions';
 
 const SessionStyled = styled.div`
   display: flex;
@@ -23,22 +25,32 @@ const ControlBtn = styled.button`
   margin: 0 10px;
 `;
 
-const Session = ({ time }) => (
-  <SessionStyled>
-    <Display>
-      <h2 id="timer-label">Session</h2>
-      <div id="time-left">{ time }</div>
-    </Display>
-    <div>
-      <ControlBtn id="start_stop">
-        <FontAwesomeIcon icon={ faPlay } />
-        <FontAwesomeIcon icon={ faPause } />
-      </ControlBtn>
-      <ControlBtn id="reset">
-        <FontAwesomeIcon icon={ faSync } />
-      </ControlBtn>
-    </div>
-  </SessionStyled>
-);
+class Session extends PureComponent {
+  handleReset = () => {
+    this.props.dispatch(reset());
+  }
 
-export default Session;
+  render() {
+    const { time } = this.props;
+
+    return (
+      <SessionStyled>
+        <Display>
+          <h2 id="timer-label">Session</h2>
+          <div id="time-left">{ time }</div>
+        </Display>
+        <div>
+          <ControlBtn id="start_stop">
+            <FontAwesomeIcon icon={ faPlay } />
+            <FontAwesomeIcon icon={ faPause } />
+          </ControlBtn>
+          <ControlBtn id="reset" onClick={ this.handleReset }>
+            <FontAwesomeIcon icon={ faSync } />
+          </ControlBtn>
+        </div>
+      </SessionStyled>
+    );
+  }
+}
+
+export default connect()(Session);

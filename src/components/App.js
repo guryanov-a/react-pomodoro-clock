@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import TimeControl from './TimeControl';
+import TimeControls from './TimeControls';
 import Session from './Session';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -17,12 +17,6 @@ const PageTitle = styled.h1`
   text-align: center;
 `;
 
-const TimeControls = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-`;
-
 class App extends PureComponent {
   render() {
     const time = moment().minute(25).seconds(0).format('mm:ss');
@@ -31,19 +25,8 @@ class App extends PureComponent {
       <PomodoroApp>
         <Container>
           <PageTitle>Pomodoro clock</PageTitle>
-          <TimeControls>
-            <TimeControl 
-              id="break"
-              title="Break Length"
-              value={ 5 }
-            />
-            <TimeControl 
-              id="session"
-              title="Break Length"
-              value={ 25 }
-            />
-          </TimeControls>
-          <Session time={ time } />   
+          <TimeControls />
+          <Session time={ time } />  
         </Container>
       </PomodoroApp>  
     );
