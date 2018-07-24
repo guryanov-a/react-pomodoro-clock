@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import TimeControls from './TimeControls';
 import Session from './Session';
 import styled from 'styled-components';
-import moment from 'moment';
 
-const PomodoroApp = styled.div`
+const PomodoroAppStyled = styled.div`
   padding: 120px 0;
 `;
 
@@ -17,18 +16,16 @@ const PageTitle = styled.h1`
   text-align: center;
 `;
 
-class App extends PureComponent {
+class PomodoroApp extends PureComponent {
   render() {
-    const time = moment().minute(25).seconds(0).format('mm:ss');
-
     return (
-      <PomodoroApp>
+      <PomodoroAppStyled>
         <Container>
           <PageTitle>Pomodoro clock</PageTitle>
           <TimeControls />
-          <Session time={ time } />  
+          <Session />  
         </Container>
-      </PomodoroApp>  
+      </PomodoroAppStyled>
     );
   }
   componentDidMount() {
@@ -38,4 +35,4 @@ class App extends PureComponent {
   }
 }
 
-export default App;
+export default PomodoroApp;

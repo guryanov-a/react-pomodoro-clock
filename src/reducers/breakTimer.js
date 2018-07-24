@@ -1,6 +1,6 @@
 import { RESET } from '../constants';
 
-const defaultState = 5;
+const defaultState = '5:00';
 
 const breakTimer = (state = defaultState, action) => {
   switch (action.type) {

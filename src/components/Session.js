@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-import { reset } from '../actions';
+import { reset, setTimerTime } from '../actions';
 
 const SessionStyled = styled.div`
   display: flex;
@@ -26,21 +26,42 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isSession: true,
+      currentTimer: props.sessionTimer,
+    }
+  }
+
   handleReset = () => {
-    this.props.dispatch(reset());
+    const {
+      dispatch,
+      sessionTimer,
+    } = this.props;
+    
+    dispatch(reset());
+
+    this.setState({
+      isSession: true,
+      currentTimer: sessionTimer,
+    });
+
+    dispatch(setTimerTime(sessionTimer));
   }
 
   render() {
-    const { time } = this.props;
+    const { timerTime } = this.props;
 
     return (
       <SessionStyled>
         <Display>
           <h2 id="timer-label">Session</h2>
-          <div id="time-left">{ time }</div>
+          <div id="time-left">{ timerTime }</div>
         </Display>
         <div>
-          <ControlBtn id="start_stop">
+          <ControlBtn id="start_stop" onClick={ this.handleStart }>
             <FontAwesomeIcon icon={ faPlay } />
             <FontAwesomeIcon icon={ faPause } />
           </ControlBtn>
@@ -51,6 +72,23 @@ class Session extends PureComponent {
       </SessionStyled>
     );
   }
+
+  componentDidMount() {
+    const { currentTimer } = this.state;
+    const { dispatch } = this.props;
+
+    dispatch(setTimerTime(currentTimer));
+  }
+
+  componentWillUnmount() {
+
+  }
 }
 
-export default connect()(Session);
+const mapStateToProps = (state) => ({
+  breakTimer: state.breakTimer,
+  sessionTimer: state.sessionTimer,
+  timerTime: state.timerTime,
+});
+
+export default connect(mapStateToProps)(Session);
