@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
-import TimeControl from './TimeControl';
-import moment from 'moment';
+import BreakTimeControl from './BreakTimeControl';
+import SessionTimeControl from './SessionTimeControl';
 
 const TimeControlsStyled = styled.div`
   display: flex;
@@ -12,22 +11,9 @@ const TimeControlsStyled = styled.div`
 
 const TimeControls = ({ sessionTimer, breakTimer }) => (
   <TimeControlsStyled>
-    <TimeControl 
-      id="break"
-      title="Break Length"
-      value={ moment(breakTimer, 'mm:ss').format('m') }
-    />
-    <TimeControl 
-      id="session"
-      title="Session Length"
-      value={ moment(sessionTimer, 'mm:ss').format('m') }
-    />
+    <BreakTimeControl />
+    <SessionTimeControl />
   </TimeControlsStyled>
 );
 
-const mapStateToProps = (state) => ({
-  sessionTimer: state.sessionTimer,
-  breakTimer: state.breakTimer,
-});
-
-export default connect(mapStateToProps)(TimeControls);
+export default TimeControls;
