@@ -11,7 +11,7 @@ class BreakTimeControl extends PureComponent {
       breakTimer,
     } = this.props;
 
-    dispatch(changeBreakTime(moment(breakTimer, 'mm:ss').add(1, 'm')));
+    dispatch(changeBreakTime(moment(breakTimer, 'mm:ss').add(1, 'm').format('mm:ss')));
   }
 
   handleDecrease = () => {
@@ -20,7 +20,7 @@ class BreakTimeControl extends PureComponent {
       breakTimer,
     } = this.props;
 
-    dispatch(changeBreakTime(moment(breakTimer, 'mm:ss').subtract(1, 'm')));
+    dispatch(changeBreakTime(moment(breakTimer, 'mm:ss').subtract(1, 'm').format('mm:ss')));
   }
 
   render() {
