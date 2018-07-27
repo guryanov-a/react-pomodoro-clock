@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-import { reset, setTimerTime } from '../actions';
+import { reset, changeDisplayTime } from '../actions';
 
 const SessionStyled = styled.div`
   display: flex;
@@ -26,39 +26,37 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
-  constructor(props) {
-    super(props);
+  getCurrentTimer = () => {
+    const { timers } = this.props;
 
-    this.state = {
-      isSession: true,
-      currentTimer: props.sessionTimer,
-    }
+    return timers.items.find(timer => {
+      return timers.currentTimer === timer.id;
+    });
+  }
+
+  getDefaultTimer = () => {
+    const { timers } = this.props;
+    
+    return timers.items.find(timer => {
+      return timer.id === timers.defaultTimer;
+    });
   }
 
   handleReset = () => {
     const {
       dispatch,
-      sessionTimer,
     } = this.props;
     
     dispatch(reset());
-
-    this.setState({
-      isSession: true,
-      currentTimer: sessionTimer,
-    });
-
-    dispatch(setTimerTime(sessionTimer));
+    dispatch(changeDisplayTime(this.getDefaultTimer().defaultTime));
   }
 
   render() {
-    const { timerTime } = this.props;
-
     return (
       <SessionStyled>
         <Display>
           <h2 id="timer-label">Session</h2>
-          <div id="time-left">{ timerTime }</div>
+          <div id="time-left">{ this.getCurrentTimer().time }</div>
         </Display>
         <div>
           <ControlBtn id="start_stop" onClick={ this.handleStart }>
@@ -72,23 +70,10 @@ class Session extends PureComponent {
       </SessionStyled>
     );
   }
-
-  componentDidMount() {
-    const { currentTimer } = this.state;
-    const { dispatch } = this.props;
-
-    dispatch(setTimerTime(currentTimer));
-  }
-
-  componentWillUnmount() {
-
-  }
 }
 
 const mapStateToProps = (state) => ({
-  breakTimer: state.breakTimer,
-  sessionTimer: state.sessionTimer,
-  timerTime: state.timerTime,
+  timers: state.timers,
 });
 
 export default connect(mapStateToProps)(Session);

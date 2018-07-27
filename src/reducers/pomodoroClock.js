@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import breakTimer from './breakTimer';
-import sessionTimer from './sessionTimer';
-import timerTime from './timerTime';
+import timeDisplay from './timeDisplay';
+import timers from './timers';
 
 const pomodoroClock = combineReducers({
-  breakTimer,
-  sessionTimer,
-  timerTime,
+  timers,
+  timeDisplay,
 });
 
 export { pomodoroClock };

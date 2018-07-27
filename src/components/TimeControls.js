@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BreakTimeControl from './BreakTimeControl';
-import SessionTimeControl from './SessionTimeControl';
+import TimeControlContainer from './TimeControlContainer';
 
 const TimeControlsStyled = styled.div`
   display: flex;
@@ -11,8 +10,12 @@ const TimeControlsStyled = styled.div`
 
 const TimeControls = () => (
   <TimeControlsStyled>
-    <BreakTimeControl />
-    <SessionTimeControl />
+    <TimeControlContainer
+      id="break"
+    />
+    <TimeControlContainer
+      id="session"
+    />
   </TimeControlsStyled>
 );
 
