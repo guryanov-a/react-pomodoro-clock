@@ -9,14 +9,14 @@ const persistedState = {
       {
         id: 'break',
         title: 'Break Length',
-        defaultTime: '05:00',
-        time: '05:00',
+        defaultTime: 5,
+        time: 5,
       },
       {
         id: 'session',
         title: 'Session Length',
-        defaultTime: '25:00',
-        time: '25:00',
+        defaultTime: 25,
+        time: 25,
       }
     ]
   },

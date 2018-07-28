@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-import { reset, changeDisplayTime } from '../actions';
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+import { reset } from '../actions';
+
+momentDurationFormatSetup(moment);
 
 const SessionStyled = styled.div`
   display: flex;
@@ -48,7 +52,6 @@ class Session extends PureComponent {
     } = this.props;
     
     dispatch(reset());
-    dispatch(changeDisplayTime(this.getDefaultTimer().defaultTime));
   }
 
   render() {
@@ -56,7 +59,7 @@ class Session extends PureComponent {
       <SessionStyled>
         <Display>
           <h2 id="timer-label">Session</h2>
-          <div id="time-left">{ this.getCurrentTimer().time }</div>
+          <div id="time-left">{ moment.duration(this.getCurrentTimer().time, 'm').format('mm:ss') }</div>
         </Display>
         <div>
           <ControlBtn id="start_stop" onClick={ this.handleStart }>
