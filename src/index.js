@@ -1,11 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
+import configureStore from './store';
 import Root from './components/Root';
 import 'bootstrap/dist/css/bootstrap-reboot.min.css';
 
-ReactDOM.render(
-  <Root />,
+const store = configureStore();
+
+render(
+  <Root store={ store } />,
   document.getElementById('root'),
 );
 registerServiceWorker();

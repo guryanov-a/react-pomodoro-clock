@@ -1,5 +1,4 @@
 import { CHANGE_TIMER_TIME, RESET } from '../constants';
-import moment from 'moment';
 
 const timer = (state = {}, action) => {
   switch(action.type) {
@@ -8,12 +7,11 @@ const timer = (state = {}, action) => {
         return state;
       }
 
-      const minutes = moment.duration(action.time).asMinutes();
       let newTime = action.time;
 
-      if (minutes < 1) {
+      if (newTime < 1) {
         newTime = 1;
-      } else if (minutes > 60) {
+      } else if (newTime > 60) {
         newTime = 60;
       }
 

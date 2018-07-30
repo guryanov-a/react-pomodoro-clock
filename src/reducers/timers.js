@@ -25,3 +25,23 @@ const timers = (state = {}, action) => {
 };
 
 export default timers;
+
+export const getCurrentTimer = (timers) => {
+  return timers.items.find(timer => {
+    return timers.currentTimer === timer.id;
+  });
+}
+
+export const getDefaultTimer = (timers) => {
+  return timers.items.find(timer => {
+    return timer.id === timers.defaultTimer;
+  });
+}
+
+export const getNextTimer = (timers) => {
+  const currentTimer = getCurrentTimer(timers);
+  const currentTimerIndex = timers.items.indexOf(currentTimer);
+  const nextTimerIndex = currentTimerIndex + 1 < timers.length ? currentTimerIndex + 1 : 0;
+
+  return timers[nextTimerIndex];
+}

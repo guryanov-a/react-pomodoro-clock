@@ -7,7 +7,8 @@ import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
-import { reset } from '../actions';
+import { reset, countdownStart, countdownStop, countdownChangeTime, changeTimer } from '../actions';
+import { getCurrentTimer, getDefaultTimer, getNextTimer } from '../reducers/timers';
 
 momentDurationFormatSetup(moment);
 
@@ -30,20 +31,12 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
-  getCurrentTimer = () => {
-    const { timers } = this.props;
+  handleStart = () => {
+    const {
+      dispatch,
+    } = this.props;
 
-    return timers.items.find(timer => {
-      return timers.currentTimer === timer.id;
-    });
-  }
-
-  getDefaultTimer = () => {
-    const { timers } = this.props;
-    
-    return timers.items.find(timer => {
-      return timer.id === timers.defaultTimer;
-    });
+    dispatch(countdownStart());
   }
 
   handleReset = () => {
@@ -55,11 +48,17 @@ class Session extends PureComponent {
   }
 
   render() {
+    const {
+      currentTimer,
+    } = this.props;
+
+    const time = moment.duration(currentTimer.time, 'm').format('mm:ss');
+
     return (
       <SessionStyled>
         <Display>
           <h2 id="timer-label">Session</h2>
-          <div id="time-left">{ moment.duration(this.getCurrentTimer().time, 'm').format('mm:ss') }</div>
+          <div id="time-left">{ time }</div>
         </Display>
         <div>
           <ControlBtn id="start_stop" onClick={ this.handleStart }>
@@ -73,10 +72,31 @@ class Session extends PureComponent {
       </SessionStyled>
     );
   }
+
+  componentDidUpdate() {
+    const { 
+      dispatch,
+      countdown,
+      nextTimer,
+      currentTimer,
+    } = this.props;
+    const countdownTime = countdown.time;
+    const isCountdownActive = countdown.isActive;
+
+    if (isCountdownActive && countdownTime === '00:00') {
+      dispatch(countdownStop());
+      dispatch(changeTimer(nextTimer));
+      dispatch(countdownChangeTime(currentTimer.time));
+      dispatch(countdownStart());
+    }
+  }
 }
 
 const mapStateToProps = (state) => ({
-  timers: state.timers,
+  currentTimer: getCurrentTimer(state.timers),
+  defaultTimer: getDefaultTimer(state.timers),
+  nextTimer: getNextTimer(state.timers),
+  countdown: state.countdown,
 });
 
 export default connect(mapStateToProps)(Session);

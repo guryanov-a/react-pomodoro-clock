@@ -1,3 +1,3 @@
 export { reset } from './reset';
-export { changeDisplayTime } from './changeDisplayTime';
-export { changeTimerTime } from './changeTimerTime';
+export { countdownStart, countdownStop, countdownChangeTime  } from './countdown';
+export { changeTimerTime, changeTimer } from './timers';

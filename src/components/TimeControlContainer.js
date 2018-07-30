@@ -14,7 +14,7 @@ class TimeControlContainer extends PureComponent {
       timer,
       timer: { time },
     } = this.props;
-    const newTime = moment.duration(time, 'm').add(1, 'm');
+    const newTime = moment.duration(time, 'm').add(1, 'm').asMinutes();
 
     dispatch(changeTimerTime(timer.id, newTime));
   }
@@ -25,7 +25,7 @@ class TimeControlContainer extends PureComponent {
       timer,
       timer: { time },
     } = this.props;
-    const newTime = moment.duration(time, 'm').subtract(1, 'm');
+    const newTime = moment.duration(time, 'm').subtract(1, 'm').asMinutes();
 
     dispatch(changeTimerTime(timer.id, newTime));
   }
