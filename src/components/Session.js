@@ -34,8 +34,10 @@ class Session extends PureComponent {
   handleStart = () => {
     const {
       dispatch,
+      currentTimer,
     } = this.props;
 
+    dispatch(countdownChangeTime(moment.duration(currentTimer.time, 'm').format('mm:ss')));
     dispatch(countdownStart());
   }
 
@@ -50,9 +52,10 @@ class Session extends PureComponent {
   render() {
     const {
       currentTimer,
+      countdown,
     } = this.props;
-
-    const time = moment.duration(currentTimer.time, 'm').format('mm:ss');
+    const timerTime = moment.duration(currentTimer.time, 'm').format('mm:ss');
+    const time = countdown.isActive ? countdown.time : timerTime;
 
     return (
       <SessionStyled>

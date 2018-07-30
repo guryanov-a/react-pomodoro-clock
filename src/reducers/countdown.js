@@ -16,11 +16,14 @@ const countdown = (
   },
   action,
 ) => {
-  const currentTime = moment.duration(state.time);
+  const currentTime = moment.duration(`00:${state.time}`);
 
   switch(action.type) {
     case COUNTDOWN_CHANGE_TIME:
-      return action.time;
+      return {
+        ...state,
+        time: action.time,
+      };
     case COUNTDOWN_START:
       return {
         ...state,
