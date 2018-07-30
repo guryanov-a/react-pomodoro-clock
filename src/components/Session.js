@@ -8,7 +8,7 @@ import { faSync } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import { reset, countdownStart, countdownStop, countdownChangeTime, changeTimer } from '../actions';
-import { getCurrentTimer, getDefaultTimer, getNextTimer } from '../reducers/timers';
+import { getActiveTimer, getDefaultTimer, getNextTimer } from '../reducers/timers';
 
 momentDurationFormatSetup(moment);
 
@@ -34,10 +34,10 @@ class Session extends PureComponent {
   handleStart = () => {
     const {
       dispatch,
-      currentTimer,
+      activeTimer,
     } = this.props;
 
-    dispatch(countdownChangeTime(moment.duration(currentTimer.time, 'm').format('mm:ss')));
+    dispatch(countdownChangeTime(moment.duration(activeTimer.time, 'm').format('mm:ss')));
     dispatch(countdownStart());
   }
 
@@ -51,10 +51,10 @@ class Session extends PureComponent {
 
   render() {
     const {
-      currentTimer,
+      activeTimer,
       countdown,
     } = this.props;
-    const timerTime = moment.duration(currentTimer.time, 'm').format('mm:ss');
+    const timerTime = moment.duration(activeTimer.time, 'm').format('mm:ss');
     const time = countdown.isActive ? countdown.time : timerTime;
 
     return (
@@ -81,7 +81,7 @@ class Session extends PureComponent {
       dispatch,
       countdown,
       nextTimer,
-      currentTimer,
+      activeTimer,
     } = this.props;
     const countdownTime = countdown.time;
     const isCountdownActive = countdown.isActive;
@@ -89,14 +89,14 @@ class Session extends PureComponent {
     if (isCountdownActive && countdownTime === '00:00') {
       dispatch(countdownStop());
       dispatch(changeTimer(nextTimer));
-      dispatch(countdownChangeTime(currentTimer.time));
+      dispatch(countdownChangeTime(activeTimer.time));
       dispatch(countdownStart());
     }
   }
 }
 
 const mapStateToProps = (state) => ({
-  currentTimer: getCurrentTimer(state.timers),
+  activeTimer: getActiveTimer(state.timers),
   defaultTimer: getDefaultTimer(state.timers),
   nextTimer: getNextTimer(state.timers),
   countdown: state.countdown,

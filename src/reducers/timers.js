@@ -26,7 +26,7 @@ const timers = (state = {}, action) => {
 
 export default timers;
 
-export const getCurrentTimer = (timers) => {
+export const getActiveTimer = (timers) => {
   return timers.items.find(timer => {
     return timers.currentTimer === timer.id;
   });
@@ -39,7 +39,7 @@ export const getDefaultTimer = (timers) => {
 }
 
 export const getNextTimer = (timers) => {
-  const currentTimer = getCurrentTimer(timers);
+  const currentTimer = getActiveTimer(timers);
   const currentTimerIndex = timers.items.indexOf(currentTimer);
   const nextTimerIndex = currentTimerIndex + 1 < timers.length ? currentTimerIndex + 1 : 0;
 
