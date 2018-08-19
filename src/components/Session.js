@@ -7,7 +7,14 @@ import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
-import { reset, countdownStart, countdownStop, countdownChangeTime, changeTimer } from '../actions';
+import { 
+  reset, 
+  countdownStart, 
+  countdownStop, 
+  countdownPause,
+  countdownChangeTime, 
+  changeTimer,
+} from '../actions';
 import { getActiveTimer, getDefaultTimer, getNextTimer } from '../reducers/timers';
 
 momentDurationFormatSetup(moment);
@@ -31,13 +38,31 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
+  handlePause = () => {
+    const {
+      dispatch,
+    } = this.props;
+
+    dispatch(countdownPause());
+  }
+
   handleStart = () => {
     const {
       dispatch,
       activeTimer,
+      countdown,
     } = this.props;
 
-    dispatch(countdownChangeTime(moment.duration(activeTimer.time, 'm').format('mm:ss')));
+    if (!countdown.isPaused) {
+      dispatch(
+        countdownChangeTime(
+          moment
+            .duration(activeTimer.time, 'm')
+            .format('mm:ss')
+        )
+      );
+    }
+
     dispatch(countdownStart());
   }
 
@@ -64,7 +89,14 @@ class Session extends PureComponent {
           <div id="time-left">{ time }</div>
         </Display>
         <div>
-          <ControlBtn id="start_stop" onClick={ this.handleStart }>
+          <ControlBtn 
+            id="start_stop" 
+            onClick={ 
+              countdown.isActive && !countdown.isPaused
+                ? this.handlePause
+                : this.handleStart
+            }
+          >
             <FontAwesomeIcon icon={ faPlay } />
             <FontAwesomeIcon icon={ faPause } />
           </ControlBtn>

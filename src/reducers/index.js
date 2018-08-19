@@ -1,1 +1,1 @@
-export { pomodoroClock } from './pomodoroClock';
+export * from './pomodoroClock';

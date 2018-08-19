@@ -3,6 +3,7 @@ import momentDurationFormatSetup from 'moment-duration-format';
 import { 
   COUNTDOWN_START,
   COUNTDOWN_CHANGE_TIME,
+  COUNTDOWN_STOP,
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
 } from '../constants';
@@ -12,6 +13,7 @@ momentDurationFormatSetup(moment);
 const countdown = (
   state = {
     isActive: false,
+    isPaused: false,
     time: '00:00',
   },
   action,
@@ -27,6 +29,7 @@ const countdown = (
     case COUNTDOWN_START:
       return {
         ...state,
+        isPaused: false,
         isActive: true,
       }
     case COUNTDOWN_TICK:
@@ -34,10 +37,16 @@ const countdown = (
         ...state,
         time: currentTime.subtract(1, 's').format('mm:ss'),
       };
+    case COUNTDOWN_STOP:
+      return {
+        ...state,
+        isPaused: false,
+        isActive: false,
+      };
     case COUNTDOWN_PAUSE:
       return {
         ...state,
-        isActive: false,
+        isPaused: true,
       };
     default:
       return state;

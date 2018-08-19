@@ -1,6 +1,7 @@
 import { 
   COUNTDOWN_START,
   COUNTDOWN_CHANGE_TIME,
+  COUNTDOWN_STOP,
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
 } from '../constants';
@@ -14,9 +15,15 @@ export const countdownStart = () => (dispatch) => {
   countdownTick();
 };
 
-const countdownTick = () => ({ type: COUNTDOWN_TICK });
+const countdownTick = () => 
+  ({ type: COUNTDOWN_TICK });
 
 export const countdownStop = () => { 
+  clearInterval(countdownTimer);
+  return { type: COUNTDOWN_STOP };
+};
+
+export const countdownPause = () => { 
   clearInterval(countdownTimer);
   return { type: COUNTDOWN_PAUSE };
 };
