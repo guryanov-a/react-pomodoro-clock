@@ -33,9 +33,15 @@ const countdown = (
         isActive: true,
       }
     case COUNTDOWN_TICK:
+      const nextTime = currentTime
+        .subtract(1, 's')
+        .format('mm:ss', {
+            trim: false,
+        });
+
       return {
         ...state,
-        time: currentTime.subtract(1, 's').format('mm:ss'),
+        time: nextTime,
       };
     case COUNTDOWN_STOP:
       return {

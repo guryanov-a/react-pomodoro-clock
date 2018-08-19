@@ -54,12 +54,12 @@ class Session extends PureComponent {
     } = this.props;
 
     if (!countdown.isPaused) {
+      const timeToSet = moment
+        .duration(activeTimer.time, 'm')
+        .format('mm:ss');
+
       dispatch(
-        countdownChangeTime(
-          moment
-            .duration(activeTimer.time, 'm')
-            .format('mm:ss')
-        )
+        countdownChangeTime(timeToSet)
       );
     }
 
