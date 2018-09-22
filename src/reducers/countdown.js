@@ -6,7 +6,7 @@ import {
   COUNTDOWN_STOP,
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
-  RESET,
+  RESET
 } from '../constants';
 
 momentDurationFormatSetup(moment);
@@ -27,7 +27,11 @@ const countdown = (
     case COUNTDOWN_CHANGE_TIME:
       return {
         ...state,
-        time: action.time,
+        time: moment
+          .duration(action.time, 'm')
+          .format('mm:ss', {
+              trim: false,
+          }),
       };
     case COUNTDOWN_START:
       return {
