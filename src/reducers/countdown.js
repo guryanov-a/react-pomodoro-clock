@@ -6,16 +6,19 @@ import {
   COUNTDOWN_STOP,
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
+  RESET,
 } from '../constants';
 
 momentDurationFormatSetup(moment);
 
+const defaultState = {
+  isActive: false,
+  isPaused: false,
+  time: '00:00',
+};
+
 const countdown = (
-  state = {
-    isActive: false,
-    isPaused: false,
-    time: '00:00',
-  },
+  state = defaultState,
   action,
 ) => {
   const currentTime = moment.duration(`00:${state.time}`);
@@ -54,6 +57,8 @@ const countdown = (
         ...state,
         isPaused: true,
       };
+    case RESET:
+      return defaultState;
     default:
       return state;
   }

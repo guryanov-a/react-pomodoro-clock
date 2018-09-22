@@ -69,9 +69,11 @@ class Session extends PureComponent {
   handleReset = () => {
     const {
       dispatch,
+      defaultTimer
     } = this.props;
     
     dispatch(reset());
+    dispatch(countdownChangeTime(defaultTimer.defaultTime));
   }
 
   render() {
