@@ -88,7 +88,7 @@ class Session extends PureComponent {
     return (
       <SessionStyled>
         <Display>
-          <h2 id="timer-label">Session</h2>
+          <h2 id="timer-label">{ activeTimer.countdownTitle }</h2>
           <div id="time-left">{ time }</div>
         </Display>
         <div>

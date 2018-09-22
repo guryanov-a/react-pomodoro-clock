@@ -11,12 +11,14 @@ const configureStore = () => {
         {
           id: 'break',
           title: 'Break Length',
+          countdownTitle: 'Break',
           defaultTime: 5,
           time: 5,
         },
         {
           id: 'session',
           title: 'Session Length',
+          countdownTitle: 'Session',
           defaultTime: 25,
           time: 25,
         }
