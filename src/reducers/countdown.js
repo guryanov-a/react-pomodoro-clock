@@ -59,6 +59,7 @@ const countdown = (
       return {
         ...state,
         isPaused: true,
+        isActive: false,
       };
     default:
       return state;

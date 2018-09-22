@@ -10,9 +10,9 @@ let countdownTimer = null;
 
 export const countdownStart = () => (dispatch) => {
   clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => dispatch(countdownTick()), 1000);
   dispatch({ type: COUNTDOWN_START });
   countdownTick();
+  countdownTimer = setInterval(() => dispatch(countdownTick()), 1000);
 };
 
 const countdownTick = () => 

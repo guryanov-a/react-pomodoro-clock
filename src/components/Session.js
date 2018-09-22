@@ -78,14 +78,11 @@ class Session extends PureComponent {
       countdown,
     } = this.props;
 
-    const timerTime = moment.duration(activeTimer.time, 'm').format('mm:ss');
-    const time = countdown.isActive ? countdown.time : timerTime;
-
     return (
       <SessionStyled>
         <Display>
           <h2 id="timer-label">{ activeTimer.countdownTitle }</h2>
-          <div id="time-left">{ time }</div>
+          <div id="time-left">{ countdown.time }</div>
         </Display>
         <div>
           <ControlBtn 
@@ -105,6 +102,15 @@ class Session extends PureComponent {
         </div>
       </SessionStyled>
     );
+  }
+
+  componentDidMount() {
+    const { 
+      dispatch,
+      activeTimer,
+    } = this.props;
+
+    dispatch(countdownChangeTime(activeTimer.time));
   }
 
   componentDidUpdate() {
