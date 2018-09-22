@@ -6,7 +6,6 @@ import {
   COUNTDOWN_STOP,
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
-  RESET
 } from '../constants';
 
 momentDurationFormatSetup(moment);
@@ -61,8 +60,6 @@ const countdown = (
         ...state,
         isPaused: true,
       };
-    case RESET:
-      return defaultState;
     default:
       return state;
   }
