@@ -6,7 +6,7 @@ const timers = (state = {}, action) => {
     case CHANGE_TIMER:
       return {
         ...state,
-        currentTimer: action.timer,
+        currentTimer: action.timer.id,
       }
     case CHANGE_TIMER_TIME:
       return {
@@ -43,5 +43,5 @@ export const getNextTimer = (timers) => {
   const currentTimerIndex = timers.items.indexOf(currentTimer);
   const nextTimerIndex = currentTimerIndex + 1 < timers.length ? currentTimerIndex + 1 : 0;
 
-  return timers[nextTimerIndex];
+  return timers.items[nextTimerIndex];
 }

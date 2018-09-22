@@ -81,6 +81,7 @@ class Session extends PureComponent {
       activeTimer,
       countdown,
     } = this.props;
+
     const timerTime = moment.duration(activeTimer.time, 'm').format('mm:ss');
     const time = countdown.isActive ? countdown.time : timerTime;
 
@@ -114,8 +115,7 @@ class Session extends PureComponent {
     const { 
       dispatch,
       countdown,
-      nextTimer,
-      activeTimer,
+      nextTimer
     } = this.props;
     const countdownTime = countdown.time;
     const isCountdownActive = countdown.isActive;
@@ -123,7 +123,7 @@ class Session extends PureComponent {
     if (isCountdownActive && countdownTime === '00:00') {
       dispatch(countdownStop());
       dispatch(changeTimer(nextTimer));
-      dispatch(countdownChangeTime(activeTimer.time));
+      dispatch(countdownChangeTime(nextTimer.time));
       dispatch(countdownStart());
     }
   }

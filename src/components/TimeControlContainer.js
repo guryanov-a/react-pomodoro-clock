@@ -54,7 +54,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     timer: currentTimer,
-  }
+  };
 };
 
 export default connect(mapStateToProps)(TimeControlContainer);
