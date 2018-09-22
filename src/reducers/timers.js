@@ -41,7 +41,7 @@ export const getDefaultTimer = (timers) => {
 export const getNextTimer = (timers) => {
   const currentTimer = getActiveTimer(timers);
   const currentTimerIndex = timers.items.indexOf(currentTimer);
-  const nextTimerIndex = currentTimerIndex + 1 < timers.length ? currentTimerIndex + 1 : 0;
+  const nextTimerIndex = currentTimerIndex + 1 < timers.items.length ? currentTimerIndex + 1 : 0;
 
   return timers.items[nextTimerIndex];
 }
