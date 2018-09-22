@@ -119,10 +119,8 @@ class Session extends PureComponent {
       countdown,
       nextTimer
     } = this.props;
-    const countdownTime = countdown.time;
-    const isCountdownActive = countdown.isActive;
-
-    if (isCountdownActive && countdownTime === '00:00') {
+    
+    if (countdown.isActive && countdown.time === '00:00') {
       dispatch(countdownStop());
       dispatch(changeTimer(nextTimer));
       dispatch(countdownChangeTime(nextTimer.time));
