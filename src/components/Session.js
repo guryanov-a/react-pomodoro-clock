@@ -38,6 +38,11 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.audio = React.createRef();
+  }
+
   handlePause = () => {
     const {
       dispatch,
@@ -68,6 +73,8 @@ class Session extends PureComponent {
       defaultTimer
     } = this.props;
     
+    this.audio.current.pause();
+    this.audio.current.currentTime = 0;
     dispatch(reset());
     dispatch(countdownChangeTime(defaultTimer.defaultTime));
   }
@@ -100,6 +107,13 @@ class Session extends PureComponent {
             <FontAwesomeIcon icon={ faSync } />
           </ControlBtn>
         </div>
+        <audio 
+          id="beep"
+          hidden 
+          ref={this.audio}
+        >
+          <source src={process.env.PUBLIC_URL + 'air_horn.mp3'} type="audio/mpeg" />
+        </audio>
       </SessionStyled>
     );
   }
@@ -119,9 +133,10 @@ class Session extends PureComponent {
       countdown,
       nextTimer
     } = this.props;
-    
+
     if (countdown.isActive && countdown.time === '00:00') {
       dispatch(countdownStop());
+      this.audio.current.play();
       dispatch(changeTimer(nextTimer));
       dispatch(countdownChangeTime(nextTimer.time));
       dispatch(countdownStart());
