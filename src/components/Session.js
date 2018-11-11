@@ -38,6 +38,8 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
+  playPromise;
+
   constructor(props) {
     super(props);
     this.audio = React.createRef();
@@ -73,8 +75,14 @@ class Session extends PureComponent {
       defaultTimer
     } = this.props;
     
-    this.audio.current.pause();
-    this.audio.current.currentTime = 0;
+    if (this.playPromise !== undefined) {
+      this.playPromise
+        .then(_ => {
+          this.audio.current.pause();
+          this.audio.current.currentTime = 0;
+        });
+    }
+    
     dispatch(reset());
     dispatch(countdownChangeTime(defaultTimer.defaultTime));
   }
@@ -136,7 +144,7 @@ class Session extends PureComponent {
 
     if (countdown.isActive && countdown.time === '00:00') {
       dispatch(countdownStop());
-      this.audio.current.play();
+      this.playPromise = this.audio.current.play();
       dispatch(changeTimer(nextTimer));
       dispatch(countdownChangeTime(nextTimer.time));
       dispatch(countdownStart());
