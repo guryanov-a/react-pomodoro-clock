@@ -5,6 +5,9 @@ import {
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
 } from '../constants';
+import { getNextTimer } from '../reducers/timers';
+import { changeTimer } from './timers';
+import { audioPlay } from './audio';
 
 let countdownTimer = null;
 
@@ -15,8 +18,20 @@ export const countdownStart = () => (dispatch) => {
   countdownTimer = setInterval(() => dispatch(countdownTick()), 1000);
 };
 
-const countdownTick = () => 
-  ({ type: COUNTDOWN_TICK });
+const countdownTick = () => (dispatch, getState) => {
+  dispatch({ type: COUNTDOWN_TICK });
+
+  const { countdown, timers } = getState();
+  const nextTimer = getNextTimer(timers);
+
+  if (countdown.isActive && countdown.time === '00:00') {
+    dispatch(countdownStop());
+    dispatch(audioPlay());
+    dispatch(changeTimer(nextTimer));
+    dispatch(countdownChangeTime(nextTimer.time));
+    dispatch(countdownStart());
+  }
+};
 
 export const countdownStop = () => { 
   clearInterval(countdownTimer);

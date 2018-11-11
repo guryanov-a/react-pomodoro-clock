@@ -10,10 +10,9 @@ import momentDurationFormatSetup from 'moment-duration-format';
 import { 
   reset, 
   countdownStart, 
-  countdownStop, 
   countdownPause,
-  countdownChangeTime, 
-  changeTimer,
+  countdownChangeTime,
+  audioSet, 
 } from '../actions';
 import { getActiveTimer, getDefaultTimer, getNextTimer } from '../reducers/timers';
 
@@ -75,16 +74,19 @@ class Session extends PureComponent {
       defaultTimer
     } = this.props;
     
-    if (this.playPromise !== undefined) {
-      this.playPromise
-        .then(_ => {
-          this.audio.current.pause();
-          this.audio.current.currentTime = 0;
-        });
-    }
-    
+  
     dispatch(reset());
     dispatch(countdownChangeTime(defaultTimer.defaultTime));
+  }
+
+  componentDidMount() {
+    const { 
+      dispatch,
+      activeTimer,
+    } = this.props;
+
+    dispatch(countdownChangeTime(activeTimer.time));
+    dispatch(audioSet(this.audio.current));
   }
 
   render() {
@@ -124,31 +126,6 @@ class Session extends PureComponent {
         </audio>
       </SessionStyled>
     );
-  }
-
-  componentDidMount() {
-    const { 
-      dispatch,
-      activeTimer,
-    } = this.props;
-
-    dispatch(countdownChangeTime(activeTimer.time));
-  }
-
-  componentDidUpdate() {
-    const { 
-      dispatch,
-      countdown,
-      nextTimer
-    } = this.props;
-
-    if (countdown.isActive && countdown.time === '00:00') {
-      dispatch(countdownStop());
-      this.playPromise = this.audio.current.play();
-      dispatch(changeTimer(nextTimer));
-      dispatch(countdownChangeTime(nextTimer.time));
-      dispatch(countdownStart());
-    }
   }
 }
 
