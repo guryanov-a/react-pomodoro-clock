@@ -19,8 +19,6 @@ export const countdownStart = () => (dispatch) => {
 };
 
 const countdownTick = () => (dispatch, getState) => {
-  dispatch({ type: COUNTDOWN_TICK });
-
   const { countdown, timers } = getState();
   const nextTimer = getNextTimer(timers);
 
@@ -30,6 +28,8 @@ const countdownTick = () => (dispatch, getState) => {
     dispatch(changeTimer(nextTimer));
     dispatch(countdownChangeTime(nextTimer.time));
     dispatch(countdownStart());
+  } else {
+    dispatch({ type: COUNTDOWN_TICK });
   }
 };
 
