@@ -122,7 +122,7 @@ class Session extends PureComponent {
           hidden 
           ref={this.audio}
         >
-          <source src={process.env.PUBLIC_URL + 'air_horn.mp3'} type="audio/mpeg" />
+          <source src="air_horn.mp3" type="audio/mpeg" />
         </audio>
       </SessionStyled>
     );
