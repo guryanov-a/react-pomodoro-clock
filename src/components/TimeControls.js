@@ -19,4 +19,4 @@ const TimeControls = () => (
   </TimeControlsStyled>
 );
 
-export default TimeControls;
+export default React.memo(TimeControls);

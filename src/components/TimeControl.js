@@ -34,4 +34,4 @@ const TimeControl = ({ id, title, value, onIncrease, onDecrease }) => (
   </StyledTimeControl>
 );
 
-export default TimeControl;
+export default React.memo(TimeControl);

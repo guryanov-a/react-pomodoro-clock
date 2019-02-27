@@ -8,4 +8,4 @@ const Root = ({ store }) => (
   </Provider>
 );
 
-export default Root;
+export default React.memo(Root);
