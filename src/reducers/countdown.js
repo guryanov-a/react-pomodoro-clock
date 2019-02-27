@@ -1,14 +1,16 @@
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
-import { 
+import {
+  format as formatDate,
+  parse as parseDate,
+  subSeconds,
+  addMinutes,
+} from 'date-fns';
+import {
   COUNTDOWN_START,
   COUNTDOWN_CHANGE_TIME,
   COUNTDOWN_STOP,
   COUNTDOWN_PAUSE,
   COUNTDOWN_TICK,
 } from '../constants';
-
-momentDurationFormatSetup(moment);
 
 const defaultState = {
   isActive: false,
@@ -20,35 +22,40 @@ const countdown = (
   state = defaultState,
   action,
 ) => {
-  const currentTime = moment.duration(`00:${state.time}`);
+  const timeFormat = 'mm:ss';
 
   switch(action.type) {
     case COUNTDOWN_CHANGE_TIME:
+    {
+      const newTime = addMinutes(new Date(0), action.time);
+
       return {
         ...state,
-        time: moment
-          .duration(action.time, 'm')
-          .format('mm:ss', {
-              trim: false,
-          }),
+        time: formatDate(
+          newTime,
+          timeFormat,
+        ),
       };
+    }
     case COUNTDOWN_START:
       return {
         ...state,
         isPaused: false,
         isActive: true,
-      }
+      };
     case COUNTDOWN_TICK:
-      const nextTime = currentTime
-        .subtract(1, 's')
-        .format('mm:ss', {
-            trim: false,
-        });
+    {
+      const currentTime = parseDate(state.time.toString(), timeFormat, new Date(0));
+      const newTime = subSeconds(currentTime, 1);
 
       return {
         ...state,
-        time: nextTime,
+        time: formatDate(
+          newTime,
+          timeFormat,
+        ),
       };
+    }
     case COUNTDOWN_STOP:
       return {
         ...state,

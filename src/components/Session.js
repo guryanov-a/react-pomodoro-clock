@@ -5,18 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faPause } from '@fortawesome/free-solid-svg-icons';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
-import { 
-  reset, 
-  countdownStart, 
+import {
+  reset,
+  countdownStart,
   countdownPause,
   countdownChangeTime,
-  audioSet, 
+  audioSet,
 } from '../actions';
 import { getActiveTimer, getDefaultTimer, getNextTimer } from '../reducers/timers';
-
-momentDurationFormatSetup(moment);
 
 const SessionStyled = styled.div`
   display: flex;
@@ -37,8 +33,6 @@ const ControlBtn = styled.button`
 `;
 
 class Session extends PureComponent {
-  playPromise;
-
   constructor(props) {
     super(props);
     this.audio = React.createRef();
@@ -50,7 +44,7 @@ class Session extends PureComponent {
     } = this.props;
 
     dispatch(countdownPause());
-  }
+  };
 
   handleStart = () => {
     const {
@@ -66,21 +60,21 @@ class Session extends PureComponent {
     }
 
     dispatch(countdownStart());
-  }
+  };
 
   handleReset = () => {
     const {
       dispatch,
       defaultTimer
     } = this.props;
-    
-  
+
+
     dispatch(reset());
     dispatch(countdownChangeTime(defaultTimer.defaultTime));
-  }
+  };
 
   componentDidMount() {
-    const { 
+    const {
       dispatch,
       activeTimer,
     } = this.props;
@@ -102,9 +96,9 @@ class Session extends PureComponent {
           <div id="time-left">{ countdown.time }</div>
         </Display>
         <div>
-          <ControlBtn 
-            id="start_stop" 
-            onClick={ 
+          <ControlBtn
+            id="start_stop"
+            onClick={
               countdown.isActive && !countdown.isPaused
                 ? this.handlePause
                 : this.handleStart
@@ -117,9 +111,9 @@ class Session extends PureComponent {
             <FontAwesomeIcon icon={ faSync } />
           </ControlBtn>
         </div>
-        <audio 
+        <audio
           id="beep"
-          hidden 
+          hidden
           ref={this.audio}
         >
           <source src="air_horn.mp3" type="audio/mpeg" />

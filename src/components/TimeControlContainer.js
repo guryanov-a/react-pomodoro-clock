@@ -1,33 +1,29 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
 import { changeTimerTime } from '../actions';
 import TimeControl from './TimeControl';
 import { getActiveTimer } from '../reducers/timers';
 
-momentDurationFormatSetup(moment);
-
 class TimeControlContainer extends PureComponent {
   handleIncrease = () => {
-    const { 
+    const {
       dispatch,
       timer,
     } = this.props;
-    const newTime = moment.duration(timer.time, 'm').add(1, 'm').asMinutes();
+    const newTime = timer.time + 1;
 
     dispatch(changeTimerTime(timer.id, newTime));
-  }
+  };
 
   handleDecrease = () => {
-    const { 
+    const {
       dispatch,
       timer,
     } = this.props;
-    const newTime = moment.duration(timer.time, 'm').subtract(1, 'm').asMinutes();
+    const newTime = timer.time - 1;
 
     dispatch(changeTimerTime(timer.id, newTime));
-  }
+  };
 
   render() {
     const {
@@ -37,10 +33,10 @@ class TimeControlContainer extends PureComponent {
     } = this.props;
 
     return (
-      <TimeControl 
+      <TimeControl
         id={ id }
         { ...timer }
-        value={ moment.duration(time, 'm').format('m') }
+        value={ time }
         onIncrease={ this.handleIncrease }
         onDecrease={ this.handleDecrease }
       />
