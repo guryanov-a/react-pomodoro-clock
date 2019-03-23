@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import TimeControls from './TimeControls';
 import Session from './Session';
 import styled from 'styled-components';
@@ -34,4 +34,4 @@ function PomodoroApp() {
   );
 }
 
-export default React.memo(PomodoroApp);
+export default memo(PomodoroApp);
