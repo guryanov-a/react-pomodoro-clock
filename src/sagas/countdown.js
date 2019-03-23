@@ -12,6 +12,8 @@ import {
   audioPlay,
   countdownChangeTime,
   countdownTick,
+  countdownStop,
+  countdownStart,
 } from '../actions';
 import {
   COUNTDOWN_PAUSE,
@@ -19,26 +21,32 @@ import {
   COUNTDOWN_STOP, COUNTDOWN_TICK,
 } from '../constants';
 
-let countdownTimer;
+let countdownChannel;
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
 
 function countdown() {
   return eventChannel((emitter) => {
     let i = 0;
-    countdownTimer = setInterval(() => {
+    emitter({ i });
+
+    const countdownInterval = setInterval(() => {
       i++;
       emitter({ i });
     }, 1000);
 
     return () => {
-      clearInterval(countdownTimer);
+      clearInterval(countdownInterval);
     };
   })
 }
 
 function* countdownStartAsync() {
-  clearInterval(countdownTimer);
+  if (countdownChannel) {
+    yield countdownChannel.close();
+    countdownChannel = null;
+  }
 
-  let countdownChannel = yield call(countdown);
+  countdownChannel = yield call(countdown);
   yield takeEvery(countdownChannel, function* () {
     yield put(countdownTick());
   });
@@ -52,11 +60,12 @@ function* countdownTickAsync() {
   const nextTimer = getNextTimer(state);
 
   if (state.countdown.isActive && state.countdown.time === '00:00') {
-    yield* countdownStopAsync();
+    yield put(countdownStop());
     yield put(audioPlay());
+    yield delay(1000);
     yield put(changeTimer(nextTimer));
     yield put(countdownChangeTime(nextTimer.time));
-    yield* countdownStartAsync();
+    yield put(countdownStart());
   }
 }
 export function* watchCountdownTickAsync() {
@@ -64,14 +73,14 @@ export function* watchCountdownTickAsync() {
 }
 
 function countdownStopAsync() {
-  clearInterval(countdownTimer);
+  if (countdownChannel) countdownChannel.close();
 }
 export function* watchCountdownStopAsync() {
   yield takeLatest(COUNTDOWN_STOP, countdownStopAsync);
 }
 
 function countdownPauseAsync() {
-  clearInterval(countdownTimer);
+  if (countdownChannel) countdownChannel.close();
 }
 export function* watchCountdownPauseAsync() {
   yield takeLatest(COUNTDOWN_PAUSE, countdownPauseAsync);
