@@ -48,7 +48,7 @@ const mapStateToProps = (state, ownProps) => {
   const currentTimer = state.timers.items.find(timer => timer.id === ownProps.id);
 
   return {
-    activeTimer: getActiveTimer(state.timers),
+    activeTimer: getActiveTimer(state),
     timer: currentTimer,
     countdown: state.countdown,
   };

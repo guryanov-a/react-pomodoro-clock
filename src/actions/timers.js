@@ -9,10 +9,10 @@ export const changeTimerTime = (id, newTime) => (dispatch, getState) => {
     time: newTime,
   });
 
-  const { timers, countdown } = getState();
-  const activeTimer = getActiveTimer(timers);
+  const state = getState();
+  const activeTimer = getActiveTimer(state);
 
-  if (id === activeTimer.id && !countdown.isActive) {
+  if (id === activeTimer.id && !state.countdown.isActive) {
     dispatch(countdownChangeTime(activeTimer.time));
   }
 };

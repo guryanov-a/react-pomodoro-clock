@@ -1,5 +1,6 @@
 import { CHANGE_TIMER, CHANGE_TIMER_TIME, RESET } from '../constants';
 import timerReducer from './timer';
+import { createSelector } from 'reselect';
 
 const timers = (state = {}, action) => {
   switch(action.type) {
@@ -26,22 +27,28 @@ const timers = (state = {}, action) => {
 
 export default timers;
 
-export const getActiveTimer = (timers) => {
-  return timers.items.find(timer => {
-    return timers.currentTimer === timer.id;
-  });
-};
+const getTimers = (state) => state.timers;
 
-export const getDefaultTimer = (timers) => {
-  return timers.items.find(timer => {
-    return timer.id === timers.defaultTimer;
-  });
-};
+export const getActiveTimer = createSelector(
+  [getTimers],
+  (timers) => {
+    return timers.items.find(timer => timers.currentTimer === timer.id);
+  },
+);
 
-export const getNextTimer = (timers) => {
-  const currentTimer = getActiveTimer(timers);
-  const currentTimerIndex = timers.items.indexOf(currentTimer);
-  const nextTimerIndex = currentTimerIndex + 1 < timers.items.length ? currentTimerIndex + 1 : 0;
+export const getDefaultTimer = createSelector(
+  [getTimers],
+  (timers) => {
+    return timers.items.find(timer => timer.id === timers.defaultTimer);
+  },
+);
 
-  return timers.items[nextTimerIndex];
-};
+export const getNextTimer = createSelector(
+  [getTimers, getActiveTimer],
+  (timers, activeTimer) => {
+    const currentTimerIndex = timers.items.indexOf(activeTimer);
+    const nextTimerIndex = currentTimerIndex + 1 < timers.items.length ? currentTimerIndex + 1 : 0;
+
+    return timers.items[nextTimerIndex];
+  },
+);

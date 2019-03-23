@@ -124,9 +124,9 @@ class Session extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  activeTimer: getActiveTimer(state.timers),
-  defaultTimer: getDefaultTimer(state.timers),
-  nextTimer: getNextTimer(state.timers),
+  activeTimer: getActiveTimer(state),
+  defaultTimer: getDefaultTimer(state),
+  nextTimer: getNextTimer(state),
   countdown: state.countdown,
 });
 

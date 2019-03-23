@@ -1,4 +1,4 @@
-import { 
+import {
   COUNTDOWN_START,
   COUNTDOWN_CHANGE_TIME,
   COUNTDOWN_STOP,
@@ -19,10 +19,10 @@ export const countdownStart = () => (dispatch) => {
 };
 
 const countdownTick = () => (dispatch, getState) => {
-  const { countdown, timers } = getState();
-  const nextTimer = getNextTimer(timers);
+  const state = getState();
+  const nextTimer = getNextTimer(state);
 
-  if (countdown.isActive && countdown.time === '00:00') {
+  if (state.countdown.isActive && state.countdown.time === '00:00') {
     dispatch(countdownStop());
     dispatch(audioPlay());
     dispatch(changeTimer(nextTimer));
@@ -33,17 +33,17 @@ const countdownTick = () => (dispatch, getState) => {
   }
 };
 
-export const countdownStop = () => { 
+export const countdownStop = () => {
   clearInterval(countdownTimer);
   return { type: COUNTDOWN_STOP };
 };
 
-export const countdownPause = () => { 
+export const countdownPause = () => {
   clearInterval(countdownTimer);
   return { type: COUNTDOWN_PAUSE };
 };
 
-export const countdownChangeTime = (newTime) => ({ 
+export const countdownChangeTime = (newTime) => ({
   type: COUNTDOWN_CHANGE_TIME,
   time: newTime,
 });

@@ -18,12 +18,12 @@ const timer = (state = {}, action) => {
       return {
         ...state,
         time: newTime,
-      }
+      };
     case RESET:
       return {
         ...state,
         time: state.defaultTime,
-      }
+      };
     default:
       return state;
   }
